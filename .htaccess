@@ -1,5 +1,4 @@
-# Block direct access to scripts folder
-
+# Block direct access to scripts folder - By CODETOT
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteRule ^scripts/ - [F,L]
