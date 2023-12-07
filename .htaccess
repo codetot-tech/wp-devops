@@ -1,4 +1,5 @@
 # Block direct access to scripts folder - By CODETOT
+# It returns 403 HTTP status code when accessing this path
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteRule ^scripts/ - [F,L]
