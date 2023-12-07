@@ -1,0 +1,6 @@
+# Block direct access to scripts folder
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^scripts/ - [F,L]
+</IfModule>
