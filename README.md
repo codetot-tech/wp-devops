@@ -1,9 +1,17 @@
 # WordPress Maintenance Bash Script
 
+Are you tired of manually running boring WordPress maintenance tasks? Do you want to ensure you're performing these tasks correctly and consistently? Then look no further than the `wp-devops`!
+This bash script simplifies and automates your WordPress maintenance routine, leveraging the power of WP-CLI and the control of Git.
+
 ## On this repository
 
 - `scripts/maintenance.sh` - a main script
 - `.htaccess` - the sample rule to set 401 when accessing folder /scripts/
+
+## Requirements
+
+- Shared Hosting or VPS with Terminal (SSH) and Git support.
+- WP-CLI
 
 ## Installation
 
