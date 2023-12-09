@@ -72,7 +72,7 @@ if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   echo "⚡️ Update translations"
   wp language core update
   wp language theme update --all
-  wp language plugin updatae --all
+  wp language plugin update --all
 
   if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
     git commit -m "🔨 Update translations"
