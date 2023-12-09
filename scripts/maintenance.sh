@@ -21,6 +21,15 @@ else
   echo "🐛 Current folder is not a Git repository. Exist."
   exit 0
 fi
+
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+if [[ "$current_branch" == "master" || "$current_branch" == "production" ]]; then
+  echo "✅ This maintenance script is running with branch $current_branch."
+else
+  echo "🐛 Can you double-check a current branch name? It was not production/master branch."
+  exit 0
+fi
   
 echo "🚧 Check Git status."
 
