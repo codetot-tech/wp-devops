@@ -2,7 +2,7 @@
 
 git status
 
-if [[ $(git status --porcelain) != "" ]]; then
+if [ -z "$(git status --untracked-files=no --porcelain)" ]; then 
 
   echo "Backup current DB"
   wp db export
