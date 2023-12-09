@@ -2,8 +2,8 @@
 
 ## On this repository
 
-- scripts/maintenance.sh - a main script
-- .htaccess - the sample rule to set 401 when accessing folder /scripts/
+- `scripts/maintenance.sh` - a main script
+- `.htaccess` - the sample rule to set 401 when accessing folder /scripts/
 
 ## Installation
 
