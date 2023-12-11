@@ -33,7 +33,7 @@ chmod +x ./scripts/maintenance.sh
 
 ```bash
 # Download current .htaccess
-wget https://raw.githubusercontent.com/codetot-tech/wp-devops/main/.htaccess htaccess.txt
+wget -c https://raw.githubusercontent.com/codetot-tech/wp-devops/main/.htaccess -O htaccess.txt
 
 # Append to last line
 sed -i '$r htaccess.txt' .htaccess
