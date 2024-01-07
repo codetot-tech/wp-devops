@@ -2,7 +2,7 @@
 
 # Copyright (c) 2023 by CODE TOT.
 # This script is licensed under the MIT license.
-# Version: 1.1.5
+# Version: 1.1.6
 # CHANGELOG: https://github.com/codetot-tech/wp-devops/issues/1
 
 echo "✨ A maintenance script was supported by CODE TOT. Post your issue on https://github.com/codetot-tech/wp-devops/issues if you have any bugs while running it."
@@ -75,6 +75,7 @@ if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   wp language plugin update --all
 
   if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
+    git add wp-content/languages/
     git commit -m "🔨 Update translations"
   else 
     echo "🦺 There is no translation update."
