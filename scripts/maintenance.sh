@@ -2,7 +2,7 @@
 
 # Copyright (c) 2023 by CODE TOT.
 # This script is licensed under the MIT license.
-# Version: 1.1.7
+# Version: 1.1.8
 # CHANGELOG: https://github.com/codetot-tech/wp-devops/issues/1
 
 echo "✨ A maintenance script was supported by CODE TOT. Post your issue on https://github.com/codetot-tech/wp-devops/issues if you have any bugs while running it."
@@ -35,14 +35,14 @@ echo "🚧 Check Git status."
 
 git status
 
-if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+if [[ -n $(git status --porcelain) ]]; then
   echo "⚡️ Backup current database."
   wp db export
 
   echo "⚡️ Update live plugins"
   wp plugin update --all
 
-  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+  if [[ -n $(git status --porcelain) ]]; then
     git add wp-content/plugins/
     git commit -m "🔨 Update live plugins"
   else 
@@ -52,7 +52,7 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   echo "⚡️ Update live themes"
   wp theme update --all
   
-  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+  if [[ -n $(git status --porcelain) ]]; then
     git add wp-content/themes/
     git commit -m "🔨 Update core themes"
   else 
@@ -62,7 +62,7 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   echo "⚡️ Update core WP"
   wp core update
 
-  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+  if [[ -n $(git status --porcelain) ]]; then
     git add wp-admin/ wp-includes/ wp-*.php xmlrpc.php index.php
     git commit -m "🔨 Update core WP"
   else 
@@ -74,7 +74,7 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   wp language theme update --all
   wp language plugin update --all
 
-  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+  if [[ -n $(git status --porcelain) ]]; then
     git add wp-content/languages/
     git commit -m "🔨 Update translations"
   else 
@@ -92,7 +92,7 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
 
 else
 
-  echo "🔥 A repository contains uncommit changes. You should manual take care of it before running a script again."
+  echo "🔥 A repository contains uncommit changes. You should manually take care of it before running a script again."
   exit 0
 
 fi
