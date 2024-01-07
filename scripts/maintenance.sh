@@ -35,24 +35,24 @@ echo "🚧 Check Git status."
 
 git status
 
-if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
+if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   echo "⚡️ Backup current database."
   wp db export
 
   echo "⚡️ Update live plugins"
   wp plugin update --all
 
-  if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
+  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
     git add wp-content/plugins/
     git commit -m "🔨 Update live plugins"
   else 
-    echo "🦺 There is no theme update."
+    echo "🦺 There is no plugin update."
   fi
   
   echo "⚡️ Update live themes"
   wp theme update --all
   
-  if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
+  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
     git add wp-content/themes/
     git commit -m "🔨 Update core themes"
   else 
@@ -62,7 +62,7 @@ if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   echo "⚡️ Update core WP"
   wp core update
 
-  if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
+  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
     git add wp-admin/ wp-includes/ wp-*.php xmlrpc.php index.php
     git commit -m "🔨 Update core WP"
   else 
@@ -74,7 +74,7 @@ if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
   wp language theme update --all
   wp language plugin update --all
 
-  if [ -z "$(git status --untracked-files=no --porcelain)" ]; then
+  if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
     git add wp-content/languages/
     git commit -m "🔨 Update translations"
   else 
