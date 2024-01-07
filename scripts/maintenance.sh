@@ -2,7 +2,7 @@
 
 # Copyright (c) 2023 by CODE TOT.
 # This script is licensed under the MIT license.
-# Version: 1.1.6
+# Version: 1.1.7
 # CHANGELOG: https://github.com/codetot-tech/wp-devops/issues/1
 
 echo "✨ A maintenance script was supported by CODE TOT. Post your issue on https://github.com/codetot-tech/wp-devops/issues if you have any bugs while running it."
