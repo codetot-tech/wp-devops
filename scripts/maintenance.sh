@@ -2,97 +2,77 @@
 
 # Copyright (c) 2023 by CODE TOT.
 # This script is licensed under the MIT license.
-# Version: 1.1.8
+# Version: 1.2.0
 # CHANGELOG: https://github.com/codetot-tech/wp-devops/issues/1
 
 echo "✨ A maintenance script was supported by CODE TOT. Post your issue on https://github.com/codetot-tech/wp-devops/issues if you have any bugs while running it."
 
-# Check if WP-CLI is installed
-if [[ -x "$(command -v wp)" ]]; then
-  echo "✅ WP-CLI is installed. You are good to go."
+echo "TASK: Check if WP-CLI available"
+
+if [[ $(wp --info) ]]; then
+  echo "✅ PASSED: WP-CLI version: $(wp --info | grep version | awk '{print $2}')"
 else
-  echo "🐛 WP-CLI is not installed. Ask your hosting provider to install it. Exist"
-  exit 0
+  echo "🚨 ERROR: WP-CLI is not available."
+  exit 1
 fi
 
-if git rev-parse --is-inside-work-tree &> /dev/null; then
-  echo "✅ Current folder is a Git repository."
+echo "TASK: Check if Git Environment available"
+
+if [[ -d .git ]]; then
+  echo "✅ PASSED! This repository is under Git-control."
 else
-  echo "🐛 Current folder is not a Git repository. Exist."
-  exit 0
+  echo "🚨 ERROR: This directory is not a Git repository."
+  exit 1
 fi
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
 
 if [[ "$current_branch" == "master" || "$current_branch" == "production" ]]; then
-  echo "✅ This maintenance script is running with branch $current_branch."
+  echo "✅ PASSED: This maintenance script is running with branch $current_branch only."
 else
-  echo "🐛 Can you double-check a current branch name? It was not production/master branch."
-  exit 0
-fi
-  
-echo "🚧 Check Git status."
-
-git status
-
-if [[ -n $(git status --porcelain) ]]; then
-  echo "⚡️ Backup current database."
-  wp db export
-
-  echo "⚡️ Update live plugins"
-  wp plugin update --all
-
-  if [[ -n $(git status --porcelain) ]]; then
-    git add wp-content/plugins/
-    git commit -m "🔨 Update live plugins"
-  else 
-    echo "🦺 There is no plugin update."
-  fi
-  
-  echo "⚡️ Update live themes"
-  wp theme update --all
-  
-  if [[ -n $(git status --porcelain) ]]; then
-    git add wp-content/themes/
-    git commit -m "🔨 Update core themes"
-  else 
-    echo "🦺 There is no theme update."
-  fi
-
-  echo "⚡️ Update core WP"
-  wp core update
-
-  if [[ -n $(git status --porcelain) ]]; then
-    git add wp-admin/ wp-includes/ wp-*.php xmlrpc.php index.php
-    git commit -m "🔨 Update core WP"
-  else 
-    echo "🦺 There is no core update."
-  fi
-
-  echo "⚡️ Update translations"
-  wp language core update
-  wp language theme update --all
-  wp language plugin update --all
-
-  if [[ -n $(git status --porcelain) ]]; then
-    git add wp-content/languages/
-    git commit -m "🔨 Update translations"
-  else 
-    echo "🦺 There is no translation update."
-  fi
-
-  echo "🚩 Finish maintenance task."
-
-  echo "🚧 Check Git status."
-
-  git status
-
-  echo "⚡️ Next: Your turn. Push to production (manual)"
+  echo "🚨 ERROR: Can you double-check a current branch name? It was not production/master branch."
   exit 1
-
-else
-
-  echo "🔥 A repository contains uncommit changes. You should manually take care of it before running a script again."
-  exit 0
-
 fi
+
+echo "⚡️ TASK: Start backup DB 🚚 "
+
+wp db export
+
+echo "⚡️ TASK: Update plugins using WP-CLI"
+
+wp plugin update --all
+
+if [[ $(git status --porcelain) ]]; then
+  git add wp-content/plugins/
+  git commit -m "📦️ Update live plugins"
+  git push
+else
+  echo "INFO: No updates or no commit."
+fi
+
+echo "⚡️ TASK: Update themes using WP-CLI"
+
+wp theme update --all
+
+if [[ $(git status --porcelain) ]]; then
+  git add wp-content/themes/
+  git commit -m "📦️ Update live themes"
+  git push
+else
+  echo "INFO: No updates or no commit."
+fi
+
+echo "⚡️ TASK: Update translations using WP-CLI"
+
+wp language plugin update --all
+wp language theme update --all
+
+if [[ $(git status --porcelain) ]]; then
+  git add wp-content/languages/
+  git commit -m "📦️ Update live translations"
+  git push
+else
+  echo "INFO: No updates or no commit."
+fi
+
+exit 0
