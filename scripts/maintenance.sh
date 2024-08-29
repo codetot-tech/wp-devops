@@ -2,7 +2,7 @@
 
 # Copyright (c) 2023 by CODE TOT.
 # This script is licensed under the MIT license.
-# Version: 1.2.0
+# Version: 1.3.0
 # CHANGELOG: https://github.com/codetot-tech/wp-devops/issues/1
 
 echo "✨ A maintenance script was supported by CODE TOT. Post your issue on https://github.com/codetot-tech/wp-devops/issues if you have any bugs while running it."
@@ -23,6 +23,15 @@ if [[ -d .git ]]; then
 else
   echo "🚨 ERROR: This directory is not a Git repository."
   exit 1
+fi
+
+echo "TASK: Check if there are uncommitted changes"
+
+if git status --porcelain | grep -v '^#'; then
+  echo "🚨 ERROR: There are uncommitted changes in the current directory."
+  exit 1
+else
+  echo "✅ PASSED: The current directory is clean."
 fi
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
